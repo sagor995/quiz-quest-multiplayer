@@ -10,7 +10,7 @@
 
 
 
-!\[Quiz Quest Screenshot](https://sagorahamed.com/uploads/images/6980d1917a758\_1770049937.png)
+!\[Quiz Quest Screenshot](docs/screenshots/screenshot1.png)
 
 
 
@@ -198,15 +198,17 @@ See \[`sample-quiz.json`](sample-quiz.json) for a working example.
 
 \## Screenshots
 
+!\[Gameplay 1](docs/screenshots/screenshot2.png)
+
+!\[Gameplay 1](docs/screenshots/screenshot3.png)
+
+!\[Gameplay 1](docs/screenshots/screenshot4.png)
+
+!\[Gameplay 1](docs/screenshots/screenshot5.png)
+
+!\[Gameplay 1](docs/screenshots/screenshot6.png)
 
 
-!\[Gameplay 1](https://sagorahamed.com/uploads/images/6980d18439274\_1770049924.png)
-
-!\[Gameplay 2](https://sagorahamed.com/uploads/images/6980d1843a5b5\_1770049924.png)
-
-!\[Gameplay 3](https://sagorahamed.com/uploads/images/6980d1843bbdf\_1770049924.png)
-
-!\[Gameplay 4](https://sagorahamed.com/uploads/images/6980d18441770\_1770049924.png)
 
 
 
