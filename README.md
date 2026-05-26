@@ -92,6 +92,18 @@ All three input methods work simultaneously in the same session.
 
 
 
+\## Firebase Setup (Safe for Public Repo)
+
+1. Copy `WebControllerServer/public/firebase-config.local.example.js` to `WebControllerServer/public/firebase-config.local.js`
+2. Put your real Firebase values in `firebase-config.local.js`
+3. Keep `WebControllerServer/public/firebase-config.js` as the committed placeholder file
+
+`firebase-config.local.js` is git-ignored to prevent key leaks.
+
+\---
+
+
+
 \## Features
 
 

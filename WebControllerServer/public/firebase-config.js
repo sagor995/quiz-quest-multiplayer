@@ -1,11 +1,13 @@
-// Firebase Web config for the phone controller.
-// Replace the values below with your Firebase Web app config.
-window.FIREBASE_CONFIG = {
-  apiKey: "AIzaSyCVHU2ALT8xrwvB1qz_sVZWw4NHza3_2ss",
-  authDomain: "quizquestme.firebaseapp.com",
-  databaseURL: "https://quizquestme-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "quizquestme",
-  appId: "1:341714855702:web:e98160694305ab7b311237",
-  messagingSenderId: "341714855702",
-  storageBucket: "quizquestme.firebasestorage.app"
-};
+// Safe default Firebase config for public repositories.
+// For real values, create firebase-config.local.js (ignored by git).
+if (!window.FIREBASE_CONFIG) {
+  window.FIREBASE_CONFIG = {
+    apiKey: "REPLACE_WITH_FIREBASE_WEB_API_KEY",
+    authDomain: "REPLACE_WITH_FIREBASE_AUTH_DOMAIN",
+    databaseURL: "REPLACE_WITH_FIREBASE_DATABASE_URL",
+    projectId: "REPLACE_WITH_FIREBASE_PROJECT_ID",
+    appId: "REPLACE_WITH_FIREBASE_APP_ID",
+    messagingSenderId: "REPLACE_WITH_FIREBASE_MESSAGING_SENDER_ID",
+    storageBucket: "REPLACE_WITH_FIREBASE_STORAGE_BUCKET"
+  };
+}
