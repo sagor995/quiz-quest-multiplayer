@@ -198,15 +198,15 @@ See \[`sample-quiz.json`](sample-quiz.json) for a working example.
 
 \## Screenshots
 
-!\[Gameplay 1](docs/screenshots/screenshot2.png)
+!\[Config screen](docs/screenshots/screenshot2.png)
 
-!\[Gameplay 1](docs/screenshots/screenshot3.png)
+!\[Setup screen](docs/screenshots/screenshot3.png)
 
-!\[Gameplay 1](docs/screenshots/screenshot4.png)
+!\[Waiting Screen](docs/screenshots/screenshot4.png)
 
-!\[Gameplay 1](docs/screenshots/screenshot5.png)
+!\[Question round](docs/screenshots/screenshot5.png)
 
-!\[Gameplay 1](docs/screenshots/screenshot6.png)
+!\[Score display](docs/screenshots/screenshot6.png)
 
 
 
