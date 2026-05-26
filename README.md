@@ -276,7 +276,7 @@ controller UI and sample quiz files.
 
 MSc Games \& Extended Reality, University of Salford (2024)  
 
-Graduate CAVE Intern, Wigan \& Leigh College
+Digital Innovation Technician, Wigan \& Leigh College
 
 
 
