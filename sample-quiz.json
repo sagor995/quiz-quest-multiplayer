@@ -1,0 +1,15 @@
+[
+  {
+    "question": "What does CPU stand for?",
+    "options": ["Central Processing Unit", "Computer Personal Unit", "Central Program Utility", "Core Processing Unit"],
+    "correctAnswerIndex": 0,
+    "category": "easy",
+    "remarks": "The CPU is the primary component that executes instructions."
+  },
+  {
+    "question": "Which language is Unity primarily scripted in?",
+    "options": ["Python", "Java", "C#", "C++"],
+    "correctAnswerIndex": 2,
+    "category": "medium"
+  }
+]

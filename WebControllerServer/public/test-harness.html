@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QuizQuest — Test Harness</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #0a0f1e;
+      color: #f1f5f9;
+      min-height: 100vh;
+    }
+
+    /* ── Config bar ── */
+    .config-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #0f1729;
+      border-bottom: 1px solid #1e2d4a;
+      padding: 14px 24px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .config-bar h1 {
+      font-size: 18px;
+      font-weight: 800;
+      color: #fbbf24;
+      white-space: nowrap;
+      margin-right: 8px;
+    }
+
+    .config-bar input, .config-bar select {
+      background: #1e2d4a;
+      border: 1px solid #2e4066;
+      border-radius: 8px;
+      color: #f1f5f9;
+      padding: 7px 12px;
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .config-bar input:focus, .config-bar select:focus {
+      border-color: #fbbf24;
+    }
+    .config-bar input::placeholder { color: #5f7aab; }
+
+    #inputBaseUrl  { width: 230px; }
+    #inputRoom     { width: 110px; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
+    #inputPrefix   { width: 110px; }
+    #inputCount    { width: 72px; text-align: center; }
+
+    .label {
+      font-size: 11px;
+      color: #7a92b8;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .btn-launch {
+      background: linear-gradient(135deg, #fbbf24, #f97316);
+      color: #0a0f1e;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: opacity 0.15s, transform 0.1s;
+      white-space: nowrap;
+    }
+    .btn-launch:hover  { opacity: 0.9; }
+    .btn-launch:active { transform: scale(0.97); }
+
+    .btn-clear {
+      background: #1e2d4a;
+      color: #94a3b8;
+      border: 1px solid #2e4066;
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-clear:hover { background: #263c63; }
+
+    .status-pill {
+      margin-left: auto;
+      font-size: 12px;
+      color: #64748b;
+      white-space: nowrap;
+    }
+    .status-pill span { color: #fbbf24; font-weight: 700; }
+
+    /* ── Phone grid ── */
+    .grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 24px;
+      justify-content: flex-start;
+    }
+
+    .phone-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .phone-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #94a3b8;
+      letter-spacing: 0.5px;
+    }
+
+    .phone-shell {
+      width: 320px;
+      height: 620px;
+      border-radius: 32px;
+      border: 3px solid #2e4066;
+      overflow: hidden;
+      background: #060d1a;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(255,255,255,0.04);
+      position: relative;
+      transition: border-color 0.3s;
+    }
+    .phone-shell.connected  { border-color: #22c55e; }
+    .phone-shell.answered   { border-color: #fbbf24; }
+
+    .phone-shell iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    /* ── Empty state ── */
+    .empty {
+      width: 100%;
+      text-align: center;
+      padding: 80px 24px;
+      color: #3d5278;
+    }
+    .empty .icon { font-size: 56px; margin-bottom: 16px; }
+    .empty h2 { font-size: 18px; font-weight: 700; margin-bottom: 6px; color: #4f6fa0; }
+    .empty p  { font-size: 13px; color: #3d5278; }
+  </style>
+</head>
+<body>
+
+<div class="config-bar">
+  <h1>🧪 Test Harness</h1>
+
+  <label class="label">
+    MODE
+    <select id="inputMode" onchange="onModeChange()">
+      <option value="ws">WebSocket (Local / Render)</option>
+      <option value="firebase">Firebase</option>
+    </select>
+  </label>
+
+  <label class="label">
+    BASE URL
+    <input id="inputBaseUrl" type="text" placeholder="http://localhost:3000" value="http://localhost:3000" />
+  </label>
+
+  <label class="label">
+    ROOM CODE
+    <input id="inputRoom" type="text" placeholder="XXXX" maxlength="6" />
+  </label>
+
+  <label class="label">
+    NAME PREFIX
+    <input id="inputPrefix" type="text" placeholder="Player" value="Player" />
+  </label>
+
+  <label class="label">
+    PLAYERS
+    <input id="inputCount" type="number" min="1" max="35" value="3" />
+  </label>
+
+  <button class="btn-launch" onclick="launch()">▶ Launch</button>
+  <button class="btn-clear"  onclick="clearAll()">✕ Clear</button>
+
+  <div class="status-pill" id="statusPill">No session active</div>
+</div>
+
+<div class="grid" id="grid">
+  <div class="empty">
+    <div class="icon">📱</div>
+    <h2>No controllers yet</h2>
+    <p>Enter a room code and hit Launch to spawn phone controllers.</p>
+  </div>
+</div>
+
+<script>
+  let activeCount = 0;
+
+  function onModeChange() {
+    const mode = document.getElementById("inputMode").value;
+    const urlInput = document.getElementById("inputBaseUrl");
+    if (mode === "firebase") {
+      urlInput.placeholder = "https://qqme.onrender.com (or your Firebase host URL)";
+    } else {
+      urlInput.placeholder = "http://localhost:3000";
+    }
+  }
+
+  function launch() {
+    const mode   = document.getElementById("inputMode").value;
+    const base   = document.getElementById("inputBaseUrl").value.trim().replace(/\/$/, "");
+    const room   = document.getElementById("inputRoom").value.trim().toUpperCase();
+    const prefix = document.getElementById("inputPrefix").value.trim() || "Player";
+    const count  = Math.min(35, Math.max(1, parseInt(document.getElementById("inputCount").value) || 1));
+
+    if (!base) { alert("Enter a base URL"); return; }
+    if (!room) { alert("Enter a room code"); return; }
+
+    clearAll();
+    activeCount = count;
+
+    const grid = document.getElementById("grid");
+    grid.innerHTML = "";
+
+    const backendParam = mode === "firebase" ? "&backend=firebase" : "";
+
+    for (let i = 1; i <= count; i++) {
+      const name   = `${prefix}${i}`;
+      const avatar = (i - 1) % 30;
+      const url    = `${base}/?testMode=1${backendParam}&testRoom=${encodeURIComponent(room)}&testName=${encodeURIComponent(name)}&testAvatar=${avatar}&autoJoin=1`;
+
+      const wrap  = document.createElement("div");
+      wrap.className = "phone-wrap";
+      wrap.id = `wrap-${i}`;
+
+      const label = document.createElement("div");
+      label.className = "phone-label";
+      label.textContent = name;
+
+      const shell = document.createElement("div");
+      shell.className = "phone-shell";
+      shell.id = `shell-${i}`;
+
+      const iframe = document.createElement("iframe");
+      iframe.src = url;
+      iframe.title = name;
+      // Each iframe gets a unique name so it has its own browsing context
+      // (important: avoids shared sessionStorage between iframes on the same origin)
+      iframe.name = `testPlayer_${i}_${Date.now()}`;
+
+      shell.appendChild(iframe);
+      wrap.appendChild(label);
+      wrap.appendChild(shell);
+      grid.appendChild(wrap);
+    }
+
+    updateStatus();
+  }
+
+  function clearAll() {
+    const grid = document.getElementById("grid");
+    grid.innerHTML = `
+      <div class="empty">
+        <div class="icon">📱</div>
+        <h2>No controllers yet</h2>
+        <p>Enter a room code and hit Launch to spawn phone controllers.</p>
+      </div>`;
+    activeCount = 0;
+    updateStatus();
+  }
+
+  function updateStatus() {
+    const pill = document.getElementById("statusPill");
+    if (activeCount === 0) {
+      pill.innerHTML = "No session active";
+    } else {
+      const room = document.getElementById("inputRoom").value.trim().toUpperCase();
+      pill.innerHTML = `<span>${activeCount}</span> controllers · Room <span>${room}</span>`;
+    }
+  }
+
+  // Auto-populate room code from URL ?room=XXXX if opened from QR
+  const _p = new URLSearchParams(location.search);
+  if (_p.get("room")) {
+    document.getElementById("inputRoom").value = _p.get("room").toUpperCase();
+  }
+  if (_p.get("base")) {
+    document.getElementById("inputBaseUrl").value = _p.get("base");
+  }
+</script>
+</body>
+</html>
